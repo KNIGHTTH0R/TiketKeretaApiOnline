@@ -1,0 +1,115 @@
+User:
+1. Login
+	- username/email
+	- password
+2. Sign up
+	- username
+	- password
+	- nama lengkap
+	- no.KTP
+	- ttl
+	- jenis kelamin
+	- no.kontak
+	- alamat
+3. Cari tiket
+	1. pilih stasiun asal - stasiun tujuan
+	2. pilih tanggal berangkat
+	3. jumlah tiket
+	*) kolom yang ditampilkan
+		- Nama kereta api
+		- Jam berangkat
+		- Jam sampai
+		- Durasi
+		- Harga
+		- Status (jika tersedia bisa klik pesan)
+	**) setiap kolom bisa disorting
+4. Pesan tiket
+	*) ketika user sudah klik pesan, artinya sudah booking kursi
+	**) user harus membayar dalam rentang waktu tertentu (misal maksimal 30menit)
+	***) jika melebihi waktu, sistem akan membatalkan secara otomatis
+5. Pilih pembayaran
+	a. transfer bank
+	b. minimarket
+6. Cancel tiket
+	*) akan dikembalikan ke rekening dalam rentang waktu tertentu
+7. Cek ID tiket/kode booking
+8. Edit profil
+
+Admin:
+1. login
+2. CRUD jadwal
+3. Konfirmasi tiket pesanan
+4. Cancel tiket pesanan
+
+#------------------------------------------------------------------------------------------------#
+
+Alur pemesanan:
+
+Home page
+1. Pilih stasiun awal - tujuan
+2. pilih tanggal berangkat
+3. Input jumlah penumpang
+4. Pilih jadwal kereta
+
+Page Jadwal Kereta
+5. Pilih jadwal keberangkatan
+
+Page Info Data Pemesanan
+6. Pilih login, sign up, atau pesan tanpa daftar
+7. Isi data pemesan dan data penumpang.
+7a. Jika sudah login/sign up, field data pemesan otomatis terisi
+7b. Jika belum daftar, field data pemesan masih kosong
+7c. Field data penumpang masih kosong
+*) Field yang tersedia:
+	- Data pemesan : Nama, email, no.telepon, alamat pemesan
+	- Data penumpang : Nama, no.KTP, jenis kelamin
+8. Klik pembayaran
+
+Page Pembayaran
+9. Pilih metode pembayaran:
+	- Transer Bank
+	- Minimarket
+10. Klik bayar
+
+Page Info Pesanan
+11. Konfirmasi data pesanan
+	- Info kereta
+		- Nama KA
+		- Kelas
+		- Asal
+		- Tujuan
+		- Tanggal dan jam berangkat
+		- Tanggal dan jam sampai
+		- Harga tiket
+		- Jumlah penumpang
+		- Total pembayaran
+	- Info Penumpang
+		- Nama
+		- No.KTP
+		- Jenis kelamin
+12. Klik OK
+
+Page Booking
+13. User mendapatkan ID Booking
+14. Ada informasi 'silakan lakukan pembayaran dengan kode berikut'
+15. Setelah membayar, klik konfirmasi pembayaran
+16. Sistem akan mengecek apakah user sudah melakukan pembayaran atau belum
+16a. Status pembayaran diubah manual oleh admin, dengan klik tombol konfirmasi di akun admin
+
+Page Tiket Pesanan
+17. User mendapatkan ID Tiket sesuai jumlah penumpang. Jika 2 penumpang, maka mendapat 2 ID
+18. Ada informasi 'silakan menukarkan tiket di stasiun keberangkatan'
+19. Selesai
+
+#------------------------------------------------------------------------------------------------------------#
+Page:
+1. Home (pesan tiket di page ini)
+2. Kontak/layanan
+3a. Login (jika belum login)
+3b. Profil user
+	- Edit profil
+	- Lihat tiket pesanan
+		- Info status tiket (belum bayar, sudah bayar)
+		- User diarahkan ke page booking jika belum bayar, ke page tiket pesanan jika sudah bayar
+
+https://trello.com/b/zp5s49uG/aplikasi-pemesanan-tiket-kereta-api
