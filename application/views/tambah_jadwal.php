@@ -71,6 +71,37 @@
               </select>
             </div>
             <br>
+            <br>
+
+            <div class="row">
+              <label class="col-md-5 offset-1 control-label">Data Harga Dewasa</label>
+            </div>
+
+            <div class="row">
+              <label class="col-md-5 offset-1 control-label">Ekonomi</label>
+              &nbsp;&nbsp;&nbsp;
+              <label class="col-md-5 control-label">Ekonomi AC</label>
+            </div>
+
+            <div class="row">
+              <input type="number" name="Kelas_1" class="form-control col-md-5 offset-1" placeholder="Ekonomi" required>
+              &nbsp;&nbsp;&nbsp;
+              <input type="number" name="Kelas_2" class="form-control col-md-5" placeholder="Ekonomi AC" required>
+            </div>
+            <br>
+
+            <div class="row">
+              <label class="col-md-5 offset-1 control-label">Bisnis</label>
+              &nbsp;&nbsp;&nbsp;
+              <label class="col-md-5 control-label">Eksekutif</label>
+            </div>
+
+            <div class="row">
+              <input type="number" name="Kelas_3" class="form-control col-md-5 offset-1" placeholder="Bisnis" required>
+              &nbsp;&nbsp;&nbsp;
+              <input type="number" name="Kelas_4" class="form-control col-md-5" placeholder="Eksekutif" required>
+            </div>
+            <br>
             
             <br>
             <div class="row" align="center">

@@ -12,106 +12,63 @@
 					
 					<br>
 					<div class="row">
-						<div class="col-md-10 offset-1">
-							<div class="form-group">
-								<label class="col-md-3 control-label">Nama</label>
-								<div class="col-md-12">
-									<input type="text" name="Nama" class="form-control" id="inputNama" placeholder="Nama" required autofocus>
-								</div>
-							</div>
-						</div>
+						<label class="col-md-5 offset-1 control-label">Nama</label>
+						&nbsp;&nbsp;&nbsp;
+						<label class="col-md-5 control-label">Jenis Kelamin</label>
 					</div>
-					
 					<div class="row">
-						<div class="col-md-10 offset-1">
-							<div class="form-group">
-								<label class="col-md-8 control-label">Jenis Kelamin</label>
-								<div class="col-md-12">
-									<select class="form-control" name="JK" required>
-					                    <option value="Laki-Laki" selected>Laki-Laki</option>
-					                    <option value="Perempuan">Perempuan</option>
-					                </select>
-								</div>
-							</div>
-						</div>
+						<input type="text" name="Nama" class="form-control col-md-5 offset-1" id="inputNama" placeholder="Nama" required autofocus>
+						&nbsp;&nbsp;&nbsp;
+						<select class="form-control col-md-5" name="JK" required>
+					        <option value="Laki-Laki" selected>Laki-Laki</option>
+					        <option value="Perempuan">Perempuan</option>
+					    </select>
 					</div>
+					<br>
 
 					<div class="row">
-						<div class="col-md-10 offset-1">
-							<div class="form-group">
-								<label class="col-md-8 control-label">Tempat Lahir</label>
-								<div class="col-md-12">
-									<input type="text" name="Tempat" class="form-control" id="inputTempat" placeholder="Tempat Lahir" required autofocus>
-								</div>
-							</div>
-						</div>
+						<label class="col-md-5 offset-1 control-label">Tempat Lahir</label>
+						&nbsp;&nbsp;&nbsp;
+						<label class="col-md-5 control-label">Tanggal Lahir</label>
 					</div>
+					<div class="row">
+						<input type="text" name="Tempat" class="form-control col-md-5 offset-1" placeholder="Tempat Lahir" required autofocus>
+						&nbsp;&nbsp;&nbsp;
+						<input type="date" name="Tanggal" class="form-control col-md-5" required autofocus>
+					</div>
+					<br>
 
 					<div class="row">
-						<div class="col-md-10 offset-1">
-							<div class="form-group">
-								<label class="col-md-8 control-label">Tanggal Lahir</label>
-								<div class="col-md-12">
-									<input type="date" name="Tanggal" class="form-control" id="inputTanggal" required autofocus>
-								</div>
-							</div>
-						</div>
+						<label class="col-md-5 offset-1 control-label">No KTP</label>
+						&nbsp;&nbsp;&nbsp;
+						<label class="col-md-5 control-label">No HP</label>
 					</div>
+					<div class="row">
+						<input type="text" name="KTP" class="form-control col-md-5 offset-1" placeholder="Nomor KTP" required autofocus>
+						&nbsp;&nbsp;&nbsp;
+						<input type="text" name="HP" class="form-control col-md-5" placeholder="Nomor HP" required autofocus>
+					</div>
+					<br>
 
 					<div class="row">
-						<div class="col-md-10 offset-1">
-							<div class="form-group">
-								<label class="col-md-3 control-label">No KTP</label>
-								<div class="col-md-12">
-									<input type="text" name="KTP" class="form-control" id="inputKTP" placeholder="Nomor KTP" required autofocus>
-								</div>
-							</div>
-						</div>
+						<label class="col-md-5 offset-1 control-label">Alamat</label>
 					</div>
+					<div class="row">
+						<input type="textarea" name="Alamat" class="form-control col-md-10 offset-1" placeholder="Alamat" required autofocus>
+					</div>
+					<br>
 
 					<div class="row">
-						<div class="col-md-10 offset-1">
-							<div class="form-group">
-								<label class="col-md-8 control-label">No HP</label>
-								<div class="col-md-12">
-									<input type="text" name="HP" class="form-control" id="inputHP" placeholder="Nomor HP" required autofocus>
-								</div>
-							</div>
-						</div>
+						<label class="col-md-5 offset-1 control-label">Email</label>
+						&nbsp;&nbsp;&nbsp;
+						<label class="col-md-5 control-label">Password</label>
 					</div>
-
 					<div class="row">
-						<div class="col-md-10 offset-1">
-							<div class="form-group">
-								<label class="col-md-8 control-label">Alamat</label>
-								<div class="col-md-12">
-									<input type="textarea" name="Alamat" class="form-control" id="inputAlamat" placeholder="Alamat" required autofocus>
-								</div>
-							</div>
-						</div>
+						<input type="email" name="Email" class="form-control col-md-5 offset-1" placeholder="Email" required autofocus>
+						&nbsp;&nbsp;&nbsp;
+						<input type="password" name="Pass" class="form-control col-md-5" placeholder="Password" autofocus>
 					</div>
-
-					<div class="row">
-						<div class="col-md-10 offset-1">
-							<div class="form-group">
-								<label class="col-md-3 control-label">Email</label>
-								<div class="col-md-12">
-									<input type="email" name="Email" class="form-control" id="inputEmail" placeholder="Email" required autofocus>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="row">
-						<div class="col-md-10 offset-1">
-							<div class="form-group">
-								<label class="col-md-3 control-label">Password</label>
-								<div class="col-md-12">
-									<input type="password" name="Pass" class="form-control" id="inputPass" placeholder="Password" autofocus>
-								</div>
-							</div>
-						</div>
-					</div>
+					<br>
 
 					<br>
 					<br>

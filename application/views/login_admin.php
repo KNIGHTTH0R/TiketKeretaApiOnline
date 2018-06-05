@@ -48,6 +48,13 @@
 			<div class="jumbotron" style="background-color: rgba(000, 000, 000, 0.6);">
 
 				<h1 align="center" style="color: white;">Admin</h1>
+				
+				<br>
+				<?php if ($stat == "gagal"){ ?>
+					<div align="center">
+						<label style="color: red;" class="control-label">Username atau Password salah.</label>
+					</div>
+				<?php } ?>
 
 				<form method="post" action="<?php echo site_url('Utama/prosesLoginAdmin'); ?>">
 					

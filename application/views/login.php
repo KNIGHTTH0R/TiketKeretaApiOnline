@@ -8,6 +8,13 @@
 
 				<h1 align="center" style="color: white;">Masuk</h1>
 
+				<br>
+				<?php if ($stat == "gagal"){ ?>
+					<div align="center">
+						<label style="color: red;" class="control-label">Email atau Password salah.</label>
+					</div>
+				<?php } ?>
+
 				<form method="post" action="<?php echo site_url('Utama/prosesLogin'); ?>">
 					
 					<br>

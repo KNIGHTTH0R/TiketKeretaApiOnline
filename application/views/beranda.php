@@ -35,12 +35,12 @@
 
           <form method="post" action="<?php echo site_url('Utama/prosesCariTiket'); ?>">
 
-            <div class="row offset-2">
+            <div class="row">
               <label class="col-md-5 offset-1 control-label">Stasiun Berangkat</label>
               &nbsp;&nbsp;&nbsp;
               <label class="col-md-5 control-label">Stasiun Tiba</label>
             </div>
-            <div class="row offset-2">
+            <div class="row">
               <select class="custom-control custom-select col-md-5 offset-1" name="StasiunAwal" required>
                 <?php foreach ($data as $key) : ?>
                   <option value="<?php echo $key['id_stasiun'] ?>"><?php echo $key['nama_stasiun'] ?></option>

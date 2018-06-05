@@ -22,115 +22,6 @@ class Utama extends CI_Controller {
 
 	}
 
-	public function cetak($id_pesanan){
-
-		$argument['data'] = $this->model->GetAllPesananUser($id_pesanan);
-		if ($argument['data']){
-			$argument['ada'] = '0';
-		} else {
-			$argument['ada'] = '1';
-			$argument['id_pesanan'] = $id_pesanan;
-		}
-
-		$argument['data_tiket'] = $this->model->selectTiketUser($id_pesanan);
-
-		$this->load->library('pdf');
-        
-		$pdf = new FPDF("L", "cm", "A4");
-		$pdf->AddPage();
-
-        $pdf->SetFont('Arial','B',20);
-        $pdf->Cell(27.5, 0.8, 'PT. KERETA API KITA', 0, 0, 'C');
-        $pdf->Ln();
-        $pdf->SetFont('Arial','B',16);
-        $pdf->Cell(27.5, 0.7, 'DATA PEMESANAN', 0, 0, 'C');
-        $pdf->Ln();
-        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
-        $pdf->Ln();
-
-        foreach ($argument['data'] as $row) {
-
-	        $pdf->SetFont('Arial','B',12);
-	        $pdf->Cell(13.75, 0.7, '        ID BOOKING : ' . $id_pesanan, 0, 0, 'L');
-	        $pdf->Cell(13.75, 0.7, 'Tanggal Pemesanan ' . $row['tanggal_pesan'] . '          ', 0, 0, 'R');
-	        $pdf->Ln();
-	        $pdf->SetFont('Arial','B',12);
-	        $pdf->Cell(13.75, 0.7, '        Nama Kereta : ' . $row['nama_kereta'] . ',  Kelas : ' . $row['nama_kelas'], 0, 0, 'L');
-	        $pdf->Ln();
-	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
-	        $pdf->Ln();
-	        $pdf->SetFont('Arial','B',12);
-	        $pdf->Cell(13.75, 0.7, 'DATA PEMESAN', 0, 0, 'L');
-	        $pdf->Ln();
-	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
-	        $pdf->Ln();
-	        $pdf->SetFont('Arial','',12);
-	        $pdf->Cell(9.167, 0.7, '        Nama : ' . $row['nama'], 0, 0, 'L');
-	        $pdf->Cell(9.167, 0.7, 'Email : ' . $row['email'], 0, 0, 'L');
-	        $pdf->Cell(9.167, 0.7, 'No HP : ' . $row['nohp'], 0, 0, 'L');
-	        $pdf->Ln();
-	        $pdf->Cell(27.5, 0.7, '        Alamat : ' . $row['alamat'], 0, 0, 'L');
-	        $pdf->Ln();
-	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
-	        $pdf->Ln();
-	        $pdf->SetFont('Arial','B',12);
-	        $pdf->Cell(13.75, 0.7, 'DATA PESANAN', 0, 0, 'L');
-	        $pdf->Ln();
-	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
-	        $pdf->Ln();
-	        $pdf->SetFont('Arial','',12);
-	        $pdf->Cell(9.167, 0.7, '        Jurusan : ' . $row['stasiun_awal'] . ' - '  . $row['stasiun_akhir'], 0, 0, 'L');
-	        $pdf->Cell(9.167, 0.7, 'Tanggal Berangkat : ' . $row['tanggal_berangkat'], 0, 0, 'L');
-	        $pdf->Cell(9.167, 0.7, 'Tanggal Tiba : ' . $row['tanggal_tiba'], 0, 0, 'L');
-	        $pdf->Ln();
-	        $pdf->Cell(9.167, 0.7, '        Jam Berangkat : ' . $row['jam_berangkat'], 0, 0, 'L');
-	        $pdf->Cell(9.167, 0.7, 'Jam Tiba : ' . $row['jam_tiba'], 0, 0, 'L');
-	        $pdf->Cell(9.167, 0.7, 'Durasi : 8 Jam', 0, 0, 'L');
-	        $pdf->Ln();
-	        $pdf->Cell(9.167, 0.7, '        Total Harga : Rp. ' . $row['total'], 0, 0, 'L');
-	        $pdf->Cell(9.167, 0.7, 'Metode Bayar : ' . $row['metode_bayar'], 0, 0, 'L');
-	        if ($row['metode_bayar'] == "Minimarket"){
-	        	$pdf->Cell(9.167, 0.7, 'Kode Bayar : ' . $row['kode_bayar'], 0, 0, 'L');
-	        } else {
-	        	$pdf->Cell(9.167, 0.7, 'Nomor Rekening : ' . $row['kode_bayar'], 0, 0, 'L');
-	        }
-	        $pdf->Ln();
-	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
-	        $pdf->Ln();
-	        $pdf->SetFont('Arial','B',12);
-	        $pdf->Cell(13.75, 0.7, 'DATA PENUMPANG', 0, 0, 'L');
-	        $pdf->Ln();
-	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
-
-	    }
-
-	    foreach ($argument['data_tiket'] as $row) {
-	        $pdf->Ln();
-	        if ($row['noktp'] == "anak"){
-	        	$pdf->Cell(13.75, 0.7, '        ANAK', 0, 0, 'L');
-	        } else {
-	        	$pdf->Cell(13.75, 0.7, '        DEWASA', 0, 0, 'L');
-	        }
-	        $pdf->Ln();
-	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
-	        $pdf->Ln();
-	        $pdf->SetFont('Arial','',12);
-	        $pdf->Cell(9.167, 0.7, '        Nama : '. $row['nama'], 0, 0, 'L');
-	        if ($row['noktp'] != "anak"){
-	        	$pdf->Cell(9.167, 0.7, 'No KTP : ' . $row['noktp'], 0, 0, 'L');
-	        }
-	        $pdf->Cell(9.167, 0.7, 'Jenis Kelamin : ' . $row['jk'], 0, 0, 'L');
-	        $pdf->Ln();
-	        $pdf->Cell(9.167, 0.7, '        ID Tiket : ' . $row['id_tiket'], 0, 0, 'L');
-	        $pdf->Cell(9.167, 0.7, 'Nomor Gerbong : ' . $row['nama_gerbong'], 0, 0, 'L');
-	        $pdf->Cell(9.167, 0.7, 'Nomor Kursi : ' . $row['nama_kursi'], 0, 0, 'L');
-	        $pdf->Ln();
-	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
-	    }
-
-        $pdf->Output("DATA", "I");
-    }
-
 	public function kontak(){
 
 		$argument['title'] = '0';
@@ -149,8 +40,9 @@ class Utama extends CI_Controller {
 
 	public function login(){
 
+		$argument['stat'] = "belum";
 		$this->load->view('template/header-awal');
-		$this->load->view('login');
+		$this->load->view('login', $argument);
 		$this->load->view('template/footer-awal');
 
 	}
@@ -257,174 +149,6 @@ class Utama extends CI_Controller {
 
 	}
 
-	public function admin(){
-
-		$this->load->view('login_admin');
-
-	}
-
-	public function berandaAdmin(){
-
-		date_default_timezone_set('Asia/Jakarta');
-		$tgl = date('Y-m-d', strtotime('+24 hours'));
-
-		$data_pesanan = $this->model->GetAllPesananNotif();
-		foreach ($data_pesanan as $row){
-			if ($row['tanggal_berangkat'] == $tgl){
-
-				$email_tujuan = $row['email'];
-
-				$email_body =
-		        '
-			    <table align="center" style="border: 1px solid #cccccc;" cellpadding="0" cellspacing="0" width="600">
-
-					<tr>
-						<td align="center" bgcolor="#70bbd9" style="padding: 40px 0 30px 0;">
-							<h1 style="color: white; font-family: Arial, sans-serif; font-size: 36px; padding: 25px 0 0 0;">PT. KERETA API KITA</h1>
-						</td>
-					</tr>
-
-					<tr>
-						<td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
-							<table border="0" cellpadding="0" cellspacing="0" width="100%">
-								<tr>
-									<td style="color: #153643; font-family: Arial, sans-serif; font-size: 24px;" align="center">
-										<b>Besok Anda Harus Berangkat</b><br>
-										<b>Dengan Jadwal</b>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<table border="0" cellpadding="0" cellspacing="0" width="100%">
-											<tr>
-												<td width="200" valign="top">
-													<table border="0" cellpadding="0" cellspacing="0" width="100%">
-														<tr>
-															<td style="padding: 25px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
-																ID Pesanan
-															</td>
-														</tr>
-														<tr>
-															<td style="padding: 10px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
-																Nama Kereta
-															</td>
-														</tr>
-														<tr>
-															<td style="padding: 10px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
-																Jurusan
-															</td>
-														</tr>
-														<tr>
-															<td style="padding: 10px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
-																Tanggal Berangkat / Jam
-															</td>
-														</tr>
-													</table>
-												</td>
-												<td style="font-size: 0; line-height: 0;" width="20">
-													&nbsp;
-												</td>
-												<td width="320" valign="top">
-													<table border="0" cellpadding="0" cellspacing="0" width="100%">
-														<tr>
-															<td style="padding: 25px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
-																: ' . $row['id_pesanan'] . '
-															</td>
-														</tr>
-														<tr>
-															<td style="padding: 10px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
-																: ' . $row['nama_kereta'] . '
-															</td>
-														</tr>
-														<tr>
-															<td style="padding: 10px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
-																: ' . $row['stasiun_awal'] . ' - ' . $row['stasiun_akhir'] . '
-															</td>
-														</tr>
-														<tr>
-															<td style="padding: 10px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
-																: ' . $row['tanggal_berangkat'] . ' / ' . $row['jam_berangkat'] . '
-															</td>
-														</tr>
-													</table>
-												</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-								<tr>
-									<td style="padding: 20px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="justify">
-										Tukarkan ID Pesanan dengan Tiket di stasiun keberangkatan. Pastikan anda tidak terlambat untuk jadwal keberangkatan, karena tidak ada toleransi untuk keterlambatan. Untuk info lainnya, kunjungi website kami di www.Tiket.com.
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-
-					<tr>
-						<td bgcolor="#ee4c50" style="padding: 30px 30px 30px 30px;">
-							<table border="0" cellpadding="0" cellspacing="0" width="100%">
-								<tr>
-									<td align="left">
-										<table border="0" cellpadding="0" cellspacing="0">
-											<tr>
-												<td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;" align="left">
-													&reg; PT. Kereta Api Kita 2018
-												</td>
-											</tr>
-										</table>
-									</td>
-									<td style="padding: 20px 0 30px 0;"></td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-
-				</table>
-
-		        ';
-
-		        $config = Array(
-				  'protocol' => 'smtp',
-				  'smtp_host' => 'ssl://smtp.googlemail.com',
-				  'smtp_port' => 465,
-				  'smtp_user' => 'dummy.ilkomupi@gmail.com',
-				  'smtp_pass' => 'ilkomupi',
-				  'mailtype' => 'html',
-				  'charset' => 'iso-8859-1',
-				  'wordwrap' => TRUE
-				);
-
-		        $this->load->library('email', $config);
-		    	$this->email->set_newline("\r\n");
-				$this->email->from('', 'PT Kereta Api Kita');
-				$this->email->to($email_tujuan);
-				$this->email->subject('Reminder');
-				$this->email->message($email_body);
-				$this->email->send();
-
-				$this->model->updatePesananNotif($row['id_pesanan']);
-			}
-		}
-
-		$argument['data'] = $this->model->GetAllJadwal();
-
-		$this->load->view('template/header-admin');
-		$this->load->view('beranda_admin', $argument);
-		$this->load->view('template/footer-admin');
-
-	}
-
-	public function pemesanan(){
-
-		$argument['data'] = $this->model->GetAllPemesan();
-
-		$this->load->view('template/header-admin');
-		$this->load->view('pemesanan_tiket', $argument);
-		$this->load->view('template/footer-admin');
-
-	}
-
 	public function dataPesanan(){
 
 		$id = $this->session->userdata("id");
@@ -491,51 +215,11 @@ class Utama extends CI_Controller {
 			$argument['title'] = '0';
 		}
 		$argument['cari'] = '0';
+		$argument['stat'] = '1';
 
 		$this->load->view('template/header-user', $argument);
 		$this->load->view('tiket_pesanan', $argument);
 		$this->load->view('template/footer-user');
-
-	}
-
-	public function harga(){
-
-		$data['harga'] = $this->model->SelectJadwalHarga()->row();
-		$data['kelas'] = $this->model->GetAllKelas();
-
-		$this->load->view('template/header-admin');
-		$this->load->view('input_harga', $data);
-		$this->load->view('template/footer-admin');
-
-	}
-
-	public function tambahJadwal(){
-
-		$argument['data'] = $this->model->GetAllKereta();
-		$argument['data2'] = $this->model->GetAllStasiun();
-
-		$this->load->view('template/header-admin');
-		$this->load->view('tambah_jadwal', $argument);
-		$this->load->view('template/footer-admin');
-
-	}
-
-	public function updateJadwal($id){
-
-		$data['jadwal'] = $this->model->selectJadwal($id)->row();
-		$data['data'] = $this->model->GetAllKereta();
-		$data['data2'] = $this->model->GetAllStasiun();
-		$data_harga = $this->model->selectDataHarga($id);
-
-		$i = 1;
-		foreach ($data_harga as $row){
-			$data['harga_' . $i] = $row['harga_dewasa'];
-			$i++;
-		}
-
-		$this->load->view('template/header-admin');
-		$this->load->view('update_jadwal', $data);
-		$this->load->view('template/footer-admin');
 
 	}
 
@@ -640,13 +324,6 @@ class Utama extends CI_Controller {
 		$this->load->view('template/header-user', $argument);
 		$this->load->view('konfirmasi_data', $argument);
 		$this->load->view('template/footer-user');
-
-	}
-
-	public function deleteJadwal($id){
-
-		$this->model->deleteJadwal($id);
-		redirect(base_url('utama/berandaAdmin'));
 
 	}
 
@@ -790,150 +467,37 @@ class Utama extends CI_Controller {
 
 	public function prosesLogin(){
 
-			$email = $this->input->post('Email');
-			$pass = $this->input->post('Pass');
+		$email = $this->input->post('Email');
+		$pass = $this->input->post('Pass');
 
-			$data = $this->model->GetAll();
-			foreach ($data as $row){
+		$ket = "0";
+		$data = $this->model->GetAll();
+		foreach ($data as $row){
 
-				if (($email == $row['email']) && ($pass == $row['password'])) {
-					$ses = [
-						'isLoggedIn' => TRUE,
-						'password' => $pass,
-						'id' => $row['id_akun'],
-						'email' => $row['email']
-					];
-					$this->session->set_userdata($ses);
-					redirect(base_url('utama/beranda'));
+			if (($email == $row['email']) && ($pass == $row['password'])) {
 
-				}
-
-			}
-
-			redirect(base_url('utama/index'));
-	}
-
-	public function prosesLoginAdmin(){
-
-			$user = $this->input->post('User');
-			$pass = $this->input->post('Pass');
-
-			$data = $this->model->GetAllAdmin();
-			foreach ($data as $row){
-
-				if (($user == $row['username']) && ($pass == $row['password'])) {
-
-					redirect(base_url('utama/berandaAdmin'));
-
-				} else {
-
-					redirect(base_url('utama/admin'));
-
-				}
+				$ses = [
+					'isLoggedIn' => TRUE,
+					'password' => $pass,
+					'id' => $row['id_akun'],
+					'email' => $row['email']
+				];
+				$this->session->set_userdata($ses);
+				$ket = "1";
 
 			}
-	}
 
-	public function prosesInsertJadwal(){
+		}
 
-		$data['id_jadwal'] = null;
-		$data['id_kereta'] = $this->input->post('Id');
-		$data['tanggal_berangkat'] = $this->input->post('TanggalB');
-		$data['tanggal_tiba'] = $this->input->post('TanggalT');
-		$data['jam_berangkat'] = $this->input->post('JamB');
-		$data['jam_tiba'] = $this->input->post('JamT');
-		$data['status'] = 0;
-		$data['status_dipakai'] = 0;
-
-		$tiba = $this->input->post('JamT');
-		$berangkat = $this->input->post('JamB');
-		if ($tiba >= $berangkat){
-			$durasi = $tiba - $berangkat;
+		if ($ket == "0"){
+			$argument['stat'] = "gagal";
+			$this->load->view('template/header-awal');
+			$this->load->view('login', $argument);
+			$this->load->view('template/footer-awal');
 		} else {
-			$berangkat = $berangkat - 12;
-			$berangkat = 12 - $berangkat;
-			$durasi = $berangkat + $tiba;
+			redirect(base_url('utama/beranda'));
 		}
 
-		$data['durasi'] = $durasi;
-		$data['id_stasiun_awal'] = $this->input->post('StasAwal');
-		$data['id_stasiun_akhir'] = $this->input->post('StasAkhir');
-
-		$this->model->insertJadwal($data);
-
-		redirect(base_url('utama/harga'));
-	}
-
-	public function prosesInsertHarga(){
-
-		$id = $this->input->post('id_jadwal');
-
-		for ($i = 1; $i < 5; $i++){
-
-			$data['id_harga'] = null;
-			$data['id_jadwal'] = $id;
-			$data['id_kelas'] = $this->input->post('id_kelas_' . $i);
-			$data['harga_dewasa'] = $this->input->post('hd_' . $i);
-			$data['harga_anak'] = $this->input->post('hd_' . $i) / 2;
-
-			$this->model->insertHarga($data);
-
-		}
-
-		redirect(base_url('utama/berandaAdmin'));
-	}
-
-	public function prosesUpdateJadwal(){
-
-		$nama = $this->input->post('Nama');
-		$data_kereta = $this->model->GetAllKereta();
-		$data['id_kereta'] = '1';
-		foreach ($data_kereta as $row){
-
-			if ($nama == $row['nama_kereta']) {
-
-				$data['id_kereta'] = $row['id_kereta'];
-
-			}
-
-		}
-
-		$data['id_jadwal'] = $this->input->post('Id');
-		$data['tanggal_berangkat'] = $this->input->post('TanggalB');
-		$data['tanggal_tiba'] = $this->input->post('TanggalT');
-		$data['jam_berangkat'] = $this->input->post('JamB');
-		$data['jam_tiba'] = $this->input->post('JamT');
-
-		$tiba = $this->input->post('JamT');
-		$berangkat = $this->input->post('JamB');
-		if ($tiba >= $berangkat){
-			$durasi = $tiba - $berangkat;
-		} else {
-			$berangkat = $berangkat - 12;
-			$berangkat = 12 - $berangkat;
-			$durasi = $berangkat + $tiba;
-		}
-
-		$data['durasi'] = $durasi;
-
-		$data['durasi'] = $durasi;
-		$data['id_stasiun_awal'] = $this->input->post('StasAwal');
-		$data['id_stasiun_akhir'] = $this->input->post('StasAkhir');
-
-		$this->model->updateJadwal($data);
-
-		for ($i = 1; $i < 5; $i++){
-
-			$data2['id_jadwal'] = $this->input->post('Id');
-			$data2['id_kelas'] = $i;
-			$data2['harga_dewasa'] = $this->input->post('Kelas_' . $i);
-			$data2['harga_anak'] = $this->input->post('Kelas_' . $i) / 2;
-
-			$this->model->updateHarga($data2);
-
-		}
-
-		redirect(base_url('utama/berandaAdmin'));
 	}
 
 	public function prosesCariTiket(){
@@ -1180,27 +744,6 @@ class Utama extends CI_Controller {
 		$this->load->view('template/footer-user');
 	}
 
-	public function prosesKonfirmasi($id){
-
-		$this->model->updateStatusBayar($id);
-
-		redirect(base_url('utama/pemesanan'));
-	}
-
-	public function prosesPembatalan($id){
-
-		date_default_timezone_set('Asia/Jakarta');
-		$data['id_pembatalan'] = null;
-		$data['id_pesanan'] = $id;
-		$data['tanggal'] = date("Y-m-d");
-		$data['oleh_user'] = 0;
-		$data['oleh_admin'] = 1;
-
-		$this->model->deletePesanan($id, $data);
-
-		redirect(base_url('utama/pemesanan'));
-	}
-
 	public function prosesPembatalanUser($id){
 
 		date_default_timezone_set('Asia/Jakarta');
@@ -1231,6 +774,554 @@ class Utama extends CI_Controller {
 		$this->model->updateProfil($data);
 
 		redirect(base_url('utama/profil'));
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public function cetak($id_pesanan){
+
+		$argument['data'] = $this->model->GetAllPesananUser($id_pesanan);
+		if ($argument['data']){
+			$argument['ada'] = '0';
+		} else {
+			$argument['ada'] = '1';
+			$argument['id_pesanan'] = $id_pesanan;
+		}
+
+		$argument['data_tiket'] = $this->model->selectTiketUser($id_pesanan);
+
+		$this->load->library('pdf');
+        
+		$pdf = new FPDF("L", "cm", "A4");
+		$pdf->AddPage();
+
+        $pdf->SetFont('Arial','B',20);
+        $pdf->Cell(27.5, 0.8, 'PT. KERETA API KITA', 0, 0, 'C');
+        $pdf->Ln();
+        $pdf->SetFont('Arial','B',16);
+        $pdf->Cell(27.5, 0.7, 'DATA PEMESANAN', 0, 0, 'C');
+        $pdf->Ln();
+        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
+        $pdf->Ln();
+
+        foreach ($argument['data'] as $row) {
+
+	        $pdf->SetFont('Arial','B',12);
+	        $pdf->Cell(13.75, 0.7, '        ID BOOKING : ' . $id_pesanan, 0, 0, 'L');
+	        $pdf->Cell(13.75, 0.7, 'Tanggal Pemesanan ' . $row['tanggal_pesan'] . '          ', 0, 0, 'R');
+	        $pdf->Ln();
+	        $pdf->SetFont('Arial','B',12);
+	        $pdf->Cell(13.75, 0.7, '        Nama Kereta : ' . $row['nama_kereta'] . ',  Kelas : ' . $row['nama_kelas'], 0, 0, 'L');
+	        $pdf->Ln();
+	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
+	        $pdf->Ln();
+	        $pdf->SetFont('Arial','B',12);
+	        $pdf->Cell(13.75, 0.7, 'DATA PEMESAN', 0, 0, 'L');
+	        $pdf->Ln();
+	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
+	        $pdf->Ln();
+	        $pdf->SetFont('Arial','',12);
+	        $pdf->Cell(9.167, 0.7, '        Nama : ' . $row['nama'], 0, 0, 'L');
+	        $pdf->Cell(9.167, 0.7, 'Email : ' . $row['email'], 0, 0, 'L');
+	        $pdf->Cell(9.167, 0.7, 'No HP : ' . $row['nohp'], 0, 0, 'L');
+	        $pdf->Ln();
+	        $pdf->Cell(27.5, 0.7, '        Alamat : ' . $row['alamat'], 0, 0, 'L');
+	        $pdf->Ln();
+	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
+	        $pdf->Ln();
+	        $pdf->SetFont('Arial','B',12);
+	        $pdf->Cell(13.75, 0.7, 'DATA PESANAN', 0, 0, 'L');
+	        $pdf->Ln();
+	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
+	        $pdf->Ln();
+	        $pdf->SetFont('Arial','',12);
+	        $pdf->Cell(9.167, 0.7, '        Jurusan : ' . $row['stasiun_awal'] . ' - '  . $row['stasiun_akhir'], 0, 0, 'L');
+	        $pdf->Cell(9.167, 0.7, 'Tanggal Berangkat : ' . $row['tanggal_berangkat'], 0, 0, 'L');
+	        $pdf->Cell(9.167, 0.7, 'Tanggal Tiba : ' . $row['tanggal_tiba'], 0, 0, 'L');
+	        $pdf->Ln();
+	        $pdf->Cell(9.167, 0.7, '        Jam Berangkat : ' . $row['jam_berangkat'], 0, 0, 'L');
+	        $pdf->Cell(9.167, 0.7, 'Jam Tiba : ' . $row['jam_tiba'], 0, 0, 'L');
+	        $pdf->Cell(9.167, 0.7, 'Durasi : 8 Jam', 0, 0, 'L');
+	        $pdf->Ln();
+	        $pdf->Cell(9.167, 0.7, '        Total Harga : Rp. ' . $row['total'], 0, 0, 'L');
+	        $pdf->Cell(9.167, 0.7, 'Metode Bayar : ' . $row['metode_bayar'], 0, 0, 'L');
+	        if ($row['metode_bayar'] == "Minimarket"){
+	        	$pdf->Cell(9.167, 0.7, 'Kode Bayar : ' . $row['kode_bayar'], 0, 0, 'L');
+	        } else {
+	        	$pdf->Cell(9.167, 0.7, 'Nomor Rekening : ' . $row['kode_bayar'], 0, 0, 'L');
+	        }
+	        $pdf->Ln();
+	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
+	        $pdf->Ln();
+	        $pdf->SetFont('Arial','B',12);
+	        $pdf->Cell(13.75, 0.7, 'DATA PENUMPANG', 0, 0, 'L');
+	        $pdf->Ln();
+	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
+
+	    }
+
+	    foreach ($argument['data_tiket'] as $row) {
+	        $pdf->Ln();
+	        if ($row['noktp'] == "anak"){
+	        	$pdf->Cell(13.75, 0.7, '        ANAK', 0, 0, 'L');
+	        } else {
+	        	$pdf->Cell(13.75, 0.7, '        DEWASA', 0, 0, 'L');
+	        }
+	        $pdf->Ln();
+	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
+	        $pdf->Ln();
+	        $pdf->SetFont('Arial','',12);
+	        $pdf->Cell(9.167, 0.7, '        Nama : '. $row['nama'], 0, 0, 'L');
+	        if ($row['noktp'] != "anak"){
+	        	$pdf->Cell(9.167, 0.7, 'No KTP : ' . $row['noktp'], 0, 0, 'L');
+	        }
+	        $pdf->Cell(9.167, 0.7, 'Jenis Kelamin : ' . $row['jk'], 0, 0, 'L');
+	        $pdf->Ln();
+	        $pdf->Cell(9.167, 0.7, '        ID Tiket : ' . $row['id_tiket'], 0, 0, 'L');
+	        $pdf->Cell(9.167, 0.7, 'Nomor Gerbong : ' . $row['nama_gerbong'], 0, 0, 'L');
+	        $pdf->Cell(9.167, 0.7, 'Nomor Kursi : ' . $row['nama_kursi'], 0, 0, 'L');
+	        $pdf->Ln();
+	        $pdf->Cell(27.5, 0.3, ' ', 0, 0, 'C');
+	    }
+
+        $pdf->Output("DATA", "I");
+    }
+
+
+
+
+
+
+
+
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+	
+	
+
+
+
+
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public function admin(){
+
+		$ket['stat'] = "belum";
+		$this->load->view('login_admin', $ket);
+
+	}
+
+	public function prosesLoginAdmin(){
+
+		$user = $this->input->post('User');
+		$pass = $this->input->post('Pass');
+
+		$data = $this->model->GetAllAdmin();
+		foreach ($data as $row){
+
+			if (($user == $row['username']) && ($pass == $row['password'])) {
+				redirect(base_url('utama/berandaAdmin'));
+			}
+
+		}
+
+		$ket['stat'] = "gagal";
+		$this->load->view('login_admin', $ket);
+			
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public function berandaAdmin(){
+
+		date_default_timezone_set('Asia/Jakarta');
+		$tgl = date('Y-m-d', strtotime('+24 hours'));
+
+		$data_pesanan = $this->model->GetAllPesananNotif();
+		foreach ($data_pesanan as $row){
+			if ($row['tanggal_berangkat'] == $tgl){
+
+				$email_tujuan = $row['email'];
+
+				$email_body =
+		        '
+			    <table align="center" style="border: 1px solid #cccccc;" cellpadding="0" cellspacing="0" width="600">
+
+					<tr>
+						<td align="center" bgcolor="#70bbd9" style="padding: 40px 0 30px 0;">
+							<h1 style="color: white; font-family: Arial, sans-serif; font-size: 36px; padding: 25px 0 0 0;">PT. KERETA API KITA</h1>
+						</td>
+					</tr>
+
+					<tr>
+						<td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+							<table border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tr>
+									<td style="color: #153643; font-family: Arial, sans-serif; font-size: 24px;" align="center">
+										<b>Besok Anda Harus Berangkat</b><br>
+										<b>Dengan Jadwal</b>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<table border="0" cellpadding="0" cellspacing="0" width="100%">
+											<tr>
+												<td width="200" valign="top">
+													<table border="0" cellpadding="0" cellspacing="0" width="100%">
+														<tr>
+															<td style="padding: 25px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
+																ID Pesanan
+															</td>
+														</tr>
+														<tr>
+															<td style="padding: 10px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
+																Nama Kereta
+															</td>
+														</tr>
+														<tr>
+															<td style="padding: 10px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
+																Jurusan
+															</td>
+														</tr>
+														<tr>
+															<td style="padding: 10px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
+																Tanggal Berangkat / Jam
+															</td>
+														</tr>
+													</table>
+												</td>
+												<td style="font-size: 0; line-height: 0;" width="20">
+													&nbsp;
+												</td>
+												<td width="320" valign="top">
+													<table border="0" cellpadding="0" cellspacing="0" width="100%">
+														<tr>
+															<td style="padding: 25px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
+																: ' . $row['id_pesanan'] . '
+															</td>
+														</tr>
+														<tr>
+															<td style="padding: 10px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
+																: ' . $row['nama_kereta'] . '
+															</td>
+														</tr>
+														<tr>
+															<td style="padding: 10px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
+																: ' . $row['stasiun_awal'] . ' - ' . $row['stasiun_akhir'] . '
+															</td>
+														</tr>
+														<tr>
+															<td style="padding: 10px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="left">
+																: ' . $row['tanggal_berangkat'] . ' / ' . $row['jam_berangkat'] . '
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td style="padding: 20px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;" align="justify">
+										Tukarkan ID Pesanan dengan Tiket di stasiun keberangkatan. Pastikan anda tidak terlambat untuk jadwal keberangkatan, karena tidak ada toleransi untuk keterlambatan. Untuk info lainnya, kunjungi website kami di www.Tiket.com.
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+
+					<tr>
+						<td bgcolor="#ee4c50" style="padding: 30px 30px 30px 30px;">
+							<table border="0" cellpadding="0" cellspacing="0" width="100%">
+								<tr>
+									<td align="left">
+										<table border="0" cellpadding="0" cellspacing="0">
+											<tr>
+												<td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;" align="left">
+													&reg; PT. Kereta Api Kita 2018
+												</td>
+											</tr>
+										</table>
+									</td>
+									<td style="padding: 20px 0 30px 0;"></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+
+				</table>
+
+		        ';
+
+		        $config = Array(
+				  'protocol' => 'smtp',
+				  'smtp_host' => 'ssl://smtp.googlemail.com',
+				  'smtp_port' => 465,
+				  'smtp_user' => 'dummy.ilkomupi@gmail.com',
+				  'smtp_pass' => 'ilkomupi',
+				  'mailtype' => 'html',
+				  'charset' => 'iso-8859-1',
+				  'wordwrap' => TRUE
+				);
+
+		        $this->load->library('email', $config);
+		    	$this->email->set_newline("\r\n");
+				$this->email->from('', 'PT Kereta Api Kita');
+				$this->email->to($email_tujuan);
+				$this->email->subject('Reminder');
+				$this->email->message($email_body);
+				$this->email->send();
+
+				$this->model->updatePesananNotif($row['id_pesanan']);
+			}
+		}
+
+		$argument['data'] = $this->model->GetAllJadwal();
+
+		$this->load->view('template/header-admin');
+		$this->load->view('beranda_admin', $argument);
+		$this->load->view('template/footer-admin');
+
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public function pemesanan(){
+
+		$argument['data'] = $this->model->GetAllPemesan();
+
+		$this->load->view('template/header-admin');
+		$this->load->view('pemesanan_tiket', $argument);
+		$this->load->view('template/footer-admin');
+
+	}
+
+	public function harga(){
+
+		$data['harga'] = $this->model->SelectJadwalHarga()->row();
+		$data['kelas'] = $this->model->GetAllKelas();
+
+		$this->load->view('template/header-admin');
+		$this->load->view('input_harga', $data);
+		$this->load->view('template/footer-admin');
+
+	}
+
+	public function tambahJadwal(){
+
+		$argument['data'] = $this->model->GetAllKereta();
+		$argument['data2'] = $this->model->GetAllStasiun();
+
+		$this->load->view('template/header-admin');
+		$this->load->view('tambah_jadwal', $argument);
+		$this->load->view('template/footer-admin');
+
+	}
+
+	public function updateJadwal($id){
+
+		$data['jadwal'] = $this->model->selectJadwal($id)->row();
+		$data['data'] = $this->model->GetAllKereta();
+		$data['data2'] = $this->model->GetAllStasiun();
+		$data_harga = $this->model->selectDataHarga($id);
+
+		$i = 1;
+		foreach ($data_harga as $row){
+			$data['harga_' . $i] = $row['harga_dewasa'];
+			$i++;
+		}
+
+		$this->load->view('template/header-admin');
+		$this->load->view('update_jadwal', $data);
+		$this->load->view('template/footer-admin');
+
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public function prosesInsertJadwal(){
+
+		$data['id_jadwal'] = null;
+		$data['id_kereta'] = $this->input->post('Id');
+		$data['tanggal_berangkat'] = $this->input->post('TanggalB');
+		$data['tanggal_tiba'] = $this->input->post('TanggalT');
+		$data['jam_berangkat'] = $this->input->post('JamB');
+		$data['jam_tiba'] = $this->input->post('JamT');
+		$data['stok_eko'] = 40;
+		$data['stok_eko_ac'] = 36;
+		$data['stok_bis'] = 30;
+		$data['stok_eks'] = 26;
+		$data['status'] = 0;
+		$data['status_dipakai'] = 0;
+
+		$tiba = $this->input->post('JamT');
+		$berangkat = $this->input->post('JamB');
+		if ($tiba >= $berangkat){
+			$durasi = $tiba - $berangkat;
+		} else {
+			$berangkat = $berangkat - 12;
+			$berangkat = 12 - $berangkat;
+			$durasi = $berangkat + $tiba;
+		}
+
+		$data['durasi'] = $durasi;
+		$data['id_stasiun_awal'] = $this->input->post('StasAwal');
+		$data['id_stasiun_akhir'] = $this->input->post('StasAkhir');
+
+		$this->model->insertJadwal($data);
+
+		redirect(base_url('utama/harga'));
+	}
+
+	public function prosesInsertHarga(){
+
+		$id = $this->input->post('id_jadwal');
+
+		for ($i = 1; $i < 5; $i++){
+
+			$data['id_harga'] = null;
+			$data['id_jadwal'] = $id;
+			$data['id_kelas'] = $this->input->post('id_kelas_' . $i);
+			$data['harga_dewasa'] = $this->input->post('hd_' . $i);
+			$data['harga_anak'] = $this->input->post('hd_' . $i) / 2;
+
+			$this->model->insertHarga($data);
+
+		}
+
+		redirect(base_url('utama/berandaAdmin'));
+	}
+
+	public function prosesUpdateJadwal(){
+
+		$nama = $this->input->post('Nama');
+		$data_kereta = $this->model->GetAllKereta();
+		$data['id_kereta'] = '1';
+		foreach ($data_kereta as $row){
+
+			if ($nama == $row['nama_kereta']) {
+
+				$data['id_kereta'] = $row['id_kereta'];
+
+			}
+
+		}
+
+		$data['id_jadwal'] = $this->input->post('Id');
+		$data['tanggal_berangkat'] = $this->input->post('TanggalB');
+		$data['tanggal_tiba'] = $this->input->post('TanggalT');
+		$data['jam_berangkat'] = $this->input->post('JamB');
+		$data['jam_tiba'] = $this->input->post('JamT');
+
+		$tiba = $this->input->post('JamT');
+		$berangkat = $this->input->post('JamB');
+		if ($tiba >= $berangkat){
+			$durasi = $tiba - $berangkat;
+		} else {
+			$berangkat = $berangkat - 12;
+			$berangkat = 12 - $berangkat;
+			$durasi = $berangkat + $tiba;
+		}
+
+		$data['durasi'] = $durasi;
+
+		$data['durasi'] = $durasi;
+		$data['id_stasiun_awal'] = $this->input->post('StasAwal');
+		$data['id_stasiun_akhir'] = $this->input->post('StasAkhir');
+
+		$this->model->updateJadwal($data);
+
+		for ($i = 1; $i < 5; $i++){
+
+			$data2['id_jadwal'] = $this->input->post('Id');
+			$data2['id_kelas'] = $i;
+			$data2['harga_dewasa'] = $this->input->post('Kelas_' . $i);
+			$data2['harga_anak'] = $this->input->post('Kelas_' . $i) / 2;
+
+			$this->model->updateHarga($data2);
+
+		}
+
+		redirect(base_url('utama/berandaAdmin'));
+	}
+
+	public function deleteJadwal($id){
+
+		$this->model->deleteJadwal($id);
+		redirect(base_url('utama/berandaAdmin'));
+
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public function prosesKonfirmasi($id){
+
+		$this->model->updateStatusBayar($id);
+
+		redirect(base_url('utama/pemesanan'));
+	}
+
+	public function prosesPembatalan($id){
+
+		date_default_timezone_set('Asia/Jakarta');
+		$data['id_pembatalan'] = null;
+		$data['id_pesanan'] = $id;
+		$data['tanggal'] = date("Y-m-d");
+		$data['oleh_user'] = 0;
+		$data['oleh_admin'] = 1;
+
+		$this->model->deletePesanan($id, $data);
+
+		redirect(base_url('utama/pemesanan'));
 	}
 
 }
